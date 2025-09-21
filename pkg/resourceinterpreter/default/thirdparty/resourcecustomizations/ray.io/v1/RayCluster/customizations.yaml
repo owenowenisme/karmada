@@ -101,3 +101,29 @@ spec:
 
           return desiredObj
         end
+    statusReflection:
+      luaScript: >
+        function ReflectStatus(observedObj)
+          status = {}
+          if observedObj == nil or observedObj.status == nil then
+            return status
+          end
+          status.state = observedObj.status.state
+          status.stateTransitionTimes = observedObj.status.stateTransitionTimes
+          status.conditions = observedObj.status.conditions
+          status.desiredCPU = observedObj.status.desiredCPU
+          status.desiredGPU = observedObj.status.desiredGPU
+          status.desiredMemory = observedObj.status.desiredMemory
+          status.desiredTPU = observedObj.status.desiredTPU
+          status.desiredWorkerReplicas = observedObj.status.desiredWorkerReplicas
+          status.endpoints = observedObj.status.endpoints
+          status.head = observedObj.status.head
+          status.lastUpdateTime = observedObj.status.lastUpdateTime
+          status.maxWorkerReplicas = observedObj.status.maxWorkerReplicas
+          status.minWorkerReplicas = observedObj.status.minWorkerReplicas
+          status.observedGeneration = observedObj.status.observedGeneration
+          status.readyWorkerReplicas = observedObj.status.readyWorkerReplicas
+          status.state = observedObj.status.state
+          status.stateTransitionTimes = observedObj.status.stateTransitionTimes
+          return status
+        end

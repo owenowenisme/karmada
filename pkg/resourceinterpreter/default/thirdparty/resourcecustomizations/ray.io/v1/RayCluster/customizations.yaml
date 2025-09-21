@@ -1,0 +1,17 @@
+apiVersion: config.karmada.io/v1alpha1
+kind: ResourceInterpreterCustomization
+metadata:
+  name: declarative-configuration-raycluster
+spec:
+  target:
+    apiVersion: ray.io/v1
+    kind: RayCluster
+  customizations:
+    healthInterpretation:
+      luaScript: >
+        function InterpretHealth(observedObj)
+          if observedObj.status == nil or observedObj.status.state == nil then
+            return false
+          end
+          return observedObj.status.state == 'ready'
+        end

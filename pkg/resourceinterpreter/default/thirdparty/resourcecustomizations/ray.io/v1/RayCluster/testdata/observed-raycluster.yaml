@@ -77,9 +77,9 @@ status:
     metrics: "8080"
   head:
     podIP: 10.244.0.6
-    podName: raycluster-kuberay-head-9cvfc
+    podName: sample-head-9cvfc
     serviceIP: 10.244.0.6
-    serviceName: raycluster-kuberay-head-svc
+    serviceName: sample-head-svc
   lastUpdateTime: "2025-09-21T03:55:45Z"
   maxWorkerReplicas: 5
   minWorkerReplicas: 1

@@ -1,16 +1,33 @@
 apiVersion: ray.io/v1
 kind: RayCluster
 metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"ray.io/v1","kind":"RayCluster","metadata":{"annotations":{},"name":"sample","namespace":"default"},"spec":{"headGroupSpec":{"rayStartParams":{},"template":{"spec":{"containers":[{"image":"rayproject/ray:2.46.0","name":"ray-head","ports":[{"containerPort":6379,"name":"gcs-server"},{"containerPort":8265,"name":"dashboard"},{"containerPort":10001,"name":"client"}],"resources":{"limits":{"cpu":1,"memory":"2G"},"requests":{"cpu":1,"memory":"2G"}}}]}}},"rayVersion":"2.46.0","workerGroupSpecs":[{"groupName":"workergroup","maxReplicas":5,"minReplicas":1,"rayStartParams":{},"replicas":1,"template":{"spec":{"containers":[{"image":"rayproject/ray:2.46.0","name":"ray-worker","resources":{"limits":{"cpu":1,"memory":"1G"},"requests":{"cpu":1,"memory":"1G"}}}]}}}]}}
+  creationTimestamp: "2025-09-21T03:54:44Z"
+  generation: 1
   name: sample
+  namespace: default
+  resourceVersion: "850"
+  uid: 040acb09-4e53-4a23-a8b2-28b4300af70b
 spec:
-  rayVersion: '2.46.0'
   headGroupSpec:
     rayStartParams: {}
     template:
       spec:
         containers:
-        - name: ray-head
-          image: rayproject/ray:2.46.0
+        - image: rayproject/ray:2.46.0
+          name: ray-head
+          ports:
+          - containerPort: 6379
+            name: gcs-server
+            protocol: TCP
+          - containerPort: 8265
+            name: dashboard
+            protocol: TCP
+          - containerPort: 10001
+            name: client
+            protocol: TCP
           resources:
             limits:
               cpu: 1
@@ -18,23 +35,19 @@ spec:
             requests:
               cpu: 1
               memory: 2G
-          ports:
-          - containerPort: 6379
-            name: gcs-server
-          - containerPort: 8265
-            name: dashboard
-          - containerPort: 10001
-            name: client
+  rayVersion: 2.46.0
   workerGroupSpecs:
-  - replicas: 1
-    minReplicas: 1
+  - groupName: workergroup
     maxReplicas: 5
-    groupName: workergroup
+    minReplicas: 1
+    numOfHosts: 1
     rayStartParams: {}
+    replicas: 1
     template:
       spec:
         containers:
-          image: rayproject/ray:2.46.0
+        - image: rayproject/ray:2.46.0
+          name: ray-worker
           resources:
             limits:
               cpu: 1

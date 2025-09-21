@@ -70,3 +70,34 @@ spec:
           end
           return observedObj.status.state == 'ready'
         end
+    statusAggregation:
+      luaScript: >
+        function AggregateStatus(desiredObj, statusItems)
+          if desiredObj.status == nil then
+            desiredObj.status = {}
+          end
+
+          for i = 1, #statusItems do
+            currentStatus = statusItems[i].status
+            if currentStatus ~= nil then
+              desiredObj.status.state = currentStatus.state
+              desiredObj.status.stateTransitionTimes = currentStatus.stateTransitionTimes
+              desiredObj.status.conditions = currentStatus.conditions
+              desiredObj.status.desiredCPU = currentStatus.desiredCPU
+              desiredObj.status.desiredGPU = currentStatus.desiredGPU
+              desiredObj.status.desiredMemory = currentStatus.desiredMemory
+              desiredObj.status.desiredTPU = currentStatus.desiredTPU
+              desiredObj.status.endpoints = currentStatus.endpoints
+              desiredObj.status.head = currentStatus.head
+              desiredObj.status.lastUpdateTime = currentStatus.lastUpdateTime
+              desiredObj.status.maxWorkerReplicas = currentStatus.maxWorkerReplicas
+              desiredObj.status.minWorkerReplicas = currentStatus.minWorkerReplicas
+              desiredObj.status.observedGeneration = currentStatus.observedGeneration
+              desiredObj.status.readyWorkerReplicas = currentStatus.readyWorkerReplicas
+              desiredObj.status.state = currentStatus.state
+              desiredObj.status.stateTransitionTimes = currentStatus.stateTransitionTimes
+            end
+          end
+
+          return desiredObj
+        end
